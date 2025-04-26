@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Child Care and Learn</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <style>
+    :root {
+      --primary: #4263eb;
+      --primary-light: #5c7cfa;
+      --secondary: #fa5252;
+      --accent: #fcc419;
+      --dark: #343a40;
+      --light: #f8f9fa;
+      --success: #40c057;
+      --info: #228be6;
+      --warning: #fd7e14;
+      --danger: #e03131;
+      --gradient: linear-gradient(135deg, var(--primary), #00c9ff);
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      background-color: var(--light);
+      overflow-x: hidden;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    header {
+      background: var(--gradient);
+      color: white;
+      padding: 1rem 0;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+    }
+    
+    .logo-icon {
+      margin-right: 10px;
+      font-size: 2rem;
+    }
+    
+    .nav-links {
+      display: flex;
+      list-style: none;
+    }
+    
+    .nav-links li {
+      margin-left: 2rem;
+    }
+    
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    
+    .nav-links a:after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -5px;
+      left: 0;
+      background-color: white;
+      transition: width 0.3s ease;
+    }
+    
+    .nav-links a:hover:after {
+      width: 100%;
+    }
+    
+    .btn {
+      padding: 0.5rem 1.5rem;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      font-size: 0.9rem;
+    }
+    
+    .btn-primary {
+      background-color: var(--accent);
+      color: var(--dark);
+    }
+    
+    .btn-primary:hover {
+      background-color: #ffda3d;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .btn-secondary {
+      background-color: transparent;
+      color: white;
+      border: 2px solid white;
+    }
+    
+    .btn-secondary:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      transform: translateY(-2px);
+    }
+    
+    .hero {
+      padding: 8rem 0 4rem;
+      background: url('/api/placeholder/1200/600') center/cover;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(66, 99, 235, 0.9), rgba(0, 201, 255, 0.8));
+      z-index: 1;
+    }
+    
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      color: white;
+      max-width: 600px;
+      margin: 0 auto;
+      text-align: center;
+      padding: 2rem 0;
+    }
+    
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 1.5rem;
+      font-weight: 700;
+    }
+    
+    .subtitle {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+    
+    .hero-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+    
+    .features {
+      padding: 5rem 0;
+      background-color: white;
+    }
+    
+    .section-title {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      color: var(--dark);
+    }
+    
+    .section-subtitle {
+      text-align: center;
+      font-size: 1.1rem;
+      color: #6c757d;
+      max-width: 700px;
+      margin: 0 auto 3rem;
+    }
+    
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+    
+    .feature-card {
+      background-color: white;
+      border-radius: 15px;
+      padding: 2rem;
+      text-align: center;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    }
+    
+    .feature-icon {
+      width: 70px;
+      height: 70px;
+      background: var(--gradient);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+      color: white;
+      font-size: 2rem;
+    }
+    
+    .feature-title {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: var(--dark);
+    }
+    
+    .feature-desc {
+      color: #6c757d;
+      line-height: 1.6;
+    }
+    
+    .testimonials {
+      padding: 5rem 0;
+      background-color: #f8f9fa;
+    }
+    
+    .testimonial-slider {
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .testimonial-container {
+      display: flex;
+      transition: transform 0.5s ease;
+    }
+    
+    .testimonial {
+      flex: 0 0 100%;
+      padding: 2rem;
+      background-color: white;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      margin: 1rem;
+    }
+    
+    .testimonial-content {
+      font-size: 1.1rem;
+      color: #495057;
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+    }
+    
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+    }
+    
+    .author-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      margin-right: 15px;
+      overflow: hidden;
+    }
+    
+    .author-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .author-info {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .author-name {
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 5px;
+    }
+    
+    .author-role {
+      font-size: 0.9rem;
+      color: #6c757d;
+    }
+    
+    .slider-controls {
+      display: flex;
+      justify-content: center;
+      margin-top: 2rem;
+    }
+    
+    .control-btn {
+      background-color: var(--primary);
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      margin: 0 10px;
+      transition: all 0.3s ease;
+    }
+    
+    .control-btn:hover {
+      background-color: var(--primary-light);
+      transform: scale(1.1);
+    }
+    
+    .pricing {
+      padding: 5rem 0;
+      background-color: white;
+    }
+    
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    
+    .pricing-card {
+      background: white;
+      border-radius: 15px;
+      padding: 2rem;
+      text-align: center;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .pricing-card.featured {
+      transform: scale(1.05);
+      border: 2px solid var(--primary);
+    }
+    
+    .pricing-card.featured::before {
+      content: 'Most Popular';
+      position: absolute;
+      top: 15px;
+      right: -30px;
+      background: var(--primary);
+      color: white;
+      padding: 5px 40px;
+      transform: rotate(45deg);
+      font-size: 0.8rem;
+    }
+    
+    .pricing-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    }
+    
+    .pricing-header {
+      margin-bottom: 2rem;
+    }
+    
+    .pricing-title {
+      font-size: 1.5rem;
+      color: var(--dark);
+      margin-bottom: 5px;
+    }
+    
+    .pricing-price {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 1rem;
+    }
+    
+    .pricing-duration {
+      color: #6c757d;
+      font-size: 0.9rem;
+    }
+    
+    .pricing-features {
+      list-style: none;
+      margin: 2rem 0;
+    }
+    
+    .pricing-features li {
+      padding: 0.5rem 0;
+      border-bottom: 1px solid #f1f1f1;
+      color: #495057;
+    }
+    
+    .cta {
+      padding: 5rem 0;
+      background: var(--gradient);
+      color: white;
+      text-align: center;
+    }
+    
+    .cta-title {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+    
+    .cta-subtitle {
+      margin-bottom: 2rem;
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin: 0 auto 2rem;
+    }
+    
+    footer {
+      background-color: var(--dark);
+      color: white;
+      padding: 4rem 0 2rem;
+    }
+    
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+    
+    .footer-column h3 {
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+      color: var(--accent);
+    }
+    
+    .footer-column ul {
+      list-style: none;
+    }
+    
+    .footer-column ul li {
+      margin-bottom: 0.8rem;
+    }
+    
+    .footer-column a {
+      color: #adb5bd;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    
+    .footer-column a:hover {
+      color: white;
+    }
+    
+    .footer-bottom {
+      text-align: center;
+      padding-top: 2rem;
+      border-top: 1px solid #495057;
+      color: #adb5bd;
+    }
+    
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 1rem;
+    }
+    
+    .social-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: #495057;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 10px;
+      transition: all 0.3s ease;
+      color: white;
+      text-decoration: none;
+    }
+    
+    .social-icon:hover {
+      background-color: var(--primary);
+      transform: translateY(-5px);
+    }
+    
+    /* Modal styles */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .modal {
+      background-color: white;
+      border-radius: 15px;
+      padding: 2rem;
+      max-width: 500px;
+      width: 90%;
+      transform: translateY(20px);
+      opacity: 0;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    
+    .modal.active {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    
+    .modal-close {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      cursor: pointer;
+      font-size: 1.5rem;
+      color: #495057;
+      transition: color 0.3s ease;
+    }
+    
+    .modal-close:hover {
+      color: var(--danger);
+    }
+    
+    .modal-header {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+    
+    .modal-title {
+      font-size: 1.8rem;
+      color: var(--dark);
+    }
+    
+    .modal-body {
+      margin-bottom: 1.5rem;
+    }
+    
+    .tabs {
+      display: flex;
+      margin-bottom: 1.5rem;
+    }
+    
+    .tab {
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      font-weight: 500;
+      flex: 1;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+    
+    .tab.active {
+      border-bottom-color: var(--primary);
+      color: var(--primary);
+    }
+    
+    .tab-content {
+      display: none;
+    }
+    
+    .tab-content.active {
+      display: block;
+    }
+    
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: var(--dark);
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #ced4da;
+      border-radius: 5px;
+      font-size: 1rem;
+      transition: border-color 0.3s ease;
+    }
+    
+    .form-control:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(66, 99, 235, 0.1);
+    }
+    
+    .form-error {
+      color: var(--danger);
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+      display: none;
+    }
+    
+    .form-error.show {
+      display: block;
+    }
+    
+    /* Animation classes */
+    .fade-in {
+      animation: fadeIn 1s ease-in-out;
+    }
+    
+    .slide-in {
+      animation: slideIn 1s ease-in-out;
+    }
+    
+    .float {
+      animation: float 3s ease-in-out infinite;
+    }
+    
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+    
+    @keyframes slideIn {
+      from {
+        transform: translateY(50px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+    
+    @keyframes float {
+      0% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+      100% {
+        transform: translateY(0);
+      }
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+      
+      .mobile-menu-btn {
+        display: block;
+      }
+      
+      h1 {
+        font-size: 2.5rem;
+      }
+      
+      .section-title {
+        font-size: 2rem;
+      }
+      
+      .hero-content {
+        padding: 1rem;
+      }
+      
+      .hero-buttons {
+        flex-direction: column;
+        gap: 1rem;
+      }
+    }
+    
+    /* Mobile menu */
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    
+    .mobile-menu {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 80%;
+      max-width: 300px;
+      height: 100%;
+      background-color: white;
+      z-index: 1000;
+      padding: 2rem;
+      box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+      transition: right 0.3s ease;
+    }
+    
+    .mobile-menu.active {
+      right: 0;
+    }
+    
+    .mobile-menu-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--dark);
+    }
+    
+    .mobile-nav-links {
+      list-style: none;
+      margin-top: 3rem;
+    }
+    
+    .mobile-nav-links li {
+      margin-bottom: 1.5rem;
+    }
+    
+    .mobile-nav-links a {
+      color: var(--dark);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 1.2rem;
+      transition: color 0.3s ease;
+    }
+    
+    .mobile-nav-links a:hover {
+      color: var(--primary);
+    }
+    
+    /* Animations for features section */
+    .animate-on-scroll {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.8s ease;
+    }
+    
+    .animate-on-scroll.animate {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    /* Count-up animation */
+    .counter-section {
+      padding: 5rem 0;
+      background: linear-gradient(to right, #4263eb, #00c9ff);
+      color: white;
+    }
+    
+    .counter-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      text-align: center;
+    }
+    
+    .counter-item h3 {
+      font-size: 3rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .counter-item p {
+      font-size: 1.1rem;
+      font-weight: 500;
+    }
+    
+    /* Floating shapes for decoration */
+    .shape {
+      position: absolute;
+      opacity: 0.1;
+      z-index: 0;
+    }
+    
+    .shape-1 {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background-color: white;
+      top: 10%;
+      left: 5%;
+      animation: float 15s ease-in-out infinite;
+    }
+    
+    .shape-2 {
+      width: 100px;
+      height: 100px;
+      background-color: white;
+      top: 20%;
+      right: 10%;
+      transform: rotate(45deg);
+      animation: float 12s ease-in-out infinite;
+      animation-delay: 2s;
+    }
+    
+    .shape-3 {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background-color: white;
+      bottom: 15%;
+      left: 15%;
+      animation: float 10s ease-in-out infinite;
+      animation-delay: 1s;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container">
+      <nav>
+        <div class="logo">
+          <div class="logo-icon">🧸</div>
+          <span>Child Care & Learn</span>
+        </div>
+        <ul class="nav-links">
+          <li><a href="#features">Features</a></li>
+          <li><a href="#testimonials">Testimonials</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div>
+          <button class="btn btn-secondary login-btn">Log In</button>
+          <button class="btn btn-primary signup-btn">Sign Up</button>
+        </div>
+        <button class="mobile-menu-btn">☰</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu">
+    <button class="mobile-menu-close">✕</button>
+    <ul class="mobile-nav-links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#testimonials">Testimonials</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="#" class="login-btn">Log In</a></li>
+      <li><a href="#" class="signup-btn">Sign Up</a></li>
+    </ul>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+    <div class="shape shape-3"></div>
+    <div class="container">
+      <div class="hero-content fade-in">
+        <h1>Nurturing Young Minds in a Safe Environment</h1>
+        <p class="subtitle">
+          Child Care & Learn offers premium childcare services with innovative educational programs to help your child thrive and grow.
+        </p>
+        <div class="hero-buttons">
+          <button class="btn btn-primary signup-btn">Get Started Today</button>
+          <button class="btn btn-secondary">Learn More</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features" id="features">
+    <div class="container">
+      <h2 class="section-title">Our Features</h2>
+      <p class="section-subtitle">
+        Discover what makes Child Care & Learn the perfect place for your child's development and growth.
+      </p>
+      <div class="features-grid">
+        <div class="feature-card animate-on-scroll">
+          <div class="feature-icon">🧠</div>
+          <h3 class="feature-title">Educational Programs</h3>
+          <p class="feature-desc">
+            Age-appropriate curriculum designed by child development experts to stimulate learning and cognitive growth.
+          </p>
+        </div>
+        <div class="feature-card animate-on-scroll">
+          <div class="feature-icon">🏆</div>
+          <h3 class="feature-title">Skilled Educators</h3>
+          <p class="feature-desc">
+            Our certified teachers are passionate about early childhood education and nurturing young minds.
+          </p>
+        </div>
+        <div class="feature-card animate-on-scroll">
+          <div class="feature-icon">🍎</div>
+          <h3 class="feature-title">Nutritious Meals</h3>
+          <p class="feature-desc">
+            Balanced, healthy meals and snacks prepared fresh daily to fuel growing bodies and minds.
+          </p>
+        </div>
+        <div class="feature-card animate-on-scroll">
+          <div class="feature-icon">🛡️</div>
+          <h3 class="feature-title">Safe Environment</h3>
+          <p class="feature-desc">
+            State-of-the-art security systems and strict safety protocols to keep your children protected.
+          </p>
+        </div>
+        <div class="feature-card animate-on-scroll">
+          <div class="feature-icon">📱</div>
+          <h3 class="feature-title">Parent App</h3>
+          <p class="feature-desc">
+            Stay connected throughout the day with real-time updates, photos, and direct messaging with teachers.
+          </p>
+        </div>
+        <div class="feature-card animate-on-scroll">
+          <div class="feature-icon">🎨</div>
+          <h3 class="feature-title">Creative Activities</h3>
+          <p class="feature-desc">
+            Art, music, dance, and play-based learning to develop creativity and social skills.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Counter Section -->
+  <section class="counter-section">
+    <div class="container">
+      <div class="counter-grid">
+        <div class="counter-item">
+          <h3 class="counter" data-target="15">0</h3>
+          <p>Years of Excellence</p>
+        </div>
+        <div class="counter-item">
+          <h3 class="counter" data-target="5000">0</h3>
+          <p>Happy Children</p>
+        </div>
+        <div class="counter-item">
+          <h3 class="counter" data-target="50">0</h3>
+          <p>Certified Teachers</p>
+        </div>
+        <div class="counter-item">
+          <h3 class="counter" data-target="25">0</h3>
+          <p>Learning Programs</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section class="testimonials" id="testimonials">
+    <div class="container">
+      <h2 class="section-title">What Parents Say</h2>
+      <p class="section-subtitle">
+        Don't just take our word for it. Here's what families in our community have to say about Child Care & Learn.
+      </p>
+      <div class="testimonial-slider">
+        <div class="testimonial-container">
+          <div class="testimonial">
+            <p class="testimonial-content">
+              "Child Care & Learn has been a second home for my daughter. The teachers are amazing and the educational programs are top-notch. I've seen tremendous growth in her confidence and learning."
+            </p>
+            <div class="testimonial-author">
+              <div class="author-avatar">
+                <img src="/api/placeholder/50/50" alt="Parent">
+              </div>
+              <div class="author-info">
+                <span class="author-name">Emily Johnson</span>
+                <span class="author-role">Parent of a 4-year-old</span>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial">
+            <p class="testimonial-content">
+              "As working parents, we needed a place where our son would not just be looked after but also thrive. Child Care & Learn has exceeded our expectations. The parent app keeps us connected throughout the day."
+            </p>
+            <div class="testimonial-author">
+              <div class="author-avatar">
+                <img src="/api/placeholder/50/50" alt="Parent">
+              </div>
+              <div class="author-info">
+                <span class="author-name">Michael Roberts</span>
+                <span class="author-role">Parent of a 3-year-old</span>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial">
+            <p class="testimonial-content">
+              "The curriculum is impressive! My twins have developed so much academically and socially since joining Child Care & Learn. The staff truly c
