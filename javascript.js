@@ -1,5 +1,8 @@
-function ab (a){
-    return a;
+var d = 1;
+
+switch (d) {
+  case 1:
+    console.log("1");
+  case 2:
+    console.log("2");
 }
-console.log(ab(false));
-console.log(ab(true));
