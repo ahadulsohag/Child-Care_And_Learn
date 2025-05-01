@@ -1,4 +1,5 @@
-function ab (){
-    return true;
+function ab (a){
+    return a;
 }
-console.log(ab());
+console.log(ab(false));
+console.log(ab(true));
